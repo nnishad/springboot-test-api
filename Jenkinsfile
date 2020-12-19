@@ -6,7 +6,7 @@ node {
 	def dockerRepoUrl = "34.122.253.69:8083"
 	
 	def dockerImage
-	def dockerImageTag = "${dockerRepoUrl}/${applicationName}:0.0.1"
+	def dockerImageTag = "${dockerRepoUrl}/admin/${applicationName}:0.0.1"
 	
 	
 	
@@ -42,8 +42,8 @@ node {
 		dockerImage = docker.build("admin/${applicationName}")		
 		
 		sh "docker login -u admin -p admin ${dockerRepoUrl}"
-      	//sh "docker tag ${applicationName} latest"
-      	sh "docker push ${applicationName}"
+      	//sh "docker tag ${dockerImageTag} latest"
+      	sh "docker push ${dockerImageTag}"
 		
 		echo "==========================================Build Docker Image ends====================================================="
 	}

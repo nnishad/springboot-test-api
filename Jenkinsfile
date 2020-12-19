@@ -1,7 +1,7 @@
 node {
 	def mvnHome	
 	// Get the Maven tool.
-	mvnHome = tool 'mvn3.6'
+	mvnHome = tool 'MAVEN'
 	def applicationName='test-service'
 	def dockerRepoUrl = "127.0.0.1:8081"
 	

@@ -10,40 +10,16 @@ node {
 	
 	
 	
-	stage('Code checkout') { 
-		echo "==========================================Code checkout starts====================================================="
-		// Get some code from a GitHub repository
-		def repo = "https://github.com/nnishad/springboot-test-api"		
-		git repo
-		echo "==========================================Code checkout ends====================================================="
-	}
-	stage ('Clean Up') {
-		echo "==========================================Clean Up starts====================================================="
-		echo "applicationName---  ${applicationName}"
-		sh "rm -rf /tmp/${applicationName}*"
-		sh 'docker system prune -a -f' 
-		echo "==========================================Clean Up ends====================================================="
-	}
-		
-	stage('Build Code') {
-		echo "==========================================Build Code starts====================================================="
-		sh "'${mvnHome}/bin/mvn' clean package -Dmaven.test.skip=true"
-		
-		
-		sh "'${mvnHome}/bin/mvn' clean package -U"
-		//sh "'${mvnHome}/bin/mvn' clean package -Dmaven.test.skip=true -U"
-		sh "cp /var/lib/jenkins/workspace/test-pipeline@2/target/${applicationName}-0.0.1-SNAPSHOT.jar /var/lib/jenkins/workspace/${applicationName}"
-		echo "==========================================Build Code ends====================================================="
-	}
+
 
 	stage('Push Docker Images to Nexus Registry'){
 			echo "==========================================Build Docker Image starts====================================================="			
 		dockerImage = docker.build("admin/${applicationName}")		
 	
-		sh 'docker login -u admin -p admin ${NexusDockerRegistryUrl}'
-		sh 'docker push ${NexusDockerRegistryUrl}/${applicationName}'
-		sh 'docker rmi $(docker images --filter=reference="${NexusDockerRegistryUrl}/${applicationName}*" -q)'
-		sh 'docker logout NexusDockerRegistryUrl'
+		sh 'docker login -u admin -p admin ${dockerRepoUrl}'
+		sh 'docker push ${dockerRepoUrl}/${applicationName}'
+		sh 'docker rmi $(docker images --filter=reference="${dockerRepoUrl}/${applicationName}*" -q)'
+		sh 'docker logout ${dockerRepoUrl'
 				echo "==========================================Build Docker Image ends====================================================="
 	}
 	stage('Application Deployment'){

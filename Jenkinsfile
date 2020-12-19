@@ -32,7 +32,7 @@ node {
 		
 		sh "'${mvnHome}/bin/mvn' clean package -U"
 		//sh "'${mvnHome}/bin/mvn' clean package -Dmaven.test.skip=true -U"
-		sh "cp /var/lib/jenkins/workspace/${applicationName}/target/${applicationName}-0.0.1-SNAPSHOT.jar /var/lib/jenkins/workspace/${applicationName}"
+		sh "cp /var/lib/jenkins/workspace/test-pipeline/target/${applicationName}-0.0.1-SNAPSHOT.jar /var/lib/jenkins/workspace/${applicationName}"
 		echo "==========================================Build Code ends====================================================="
 	}
 

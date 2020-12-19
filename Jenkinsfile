@@ -43,7 +43,7 @@ node {
 		
 		sh "docker login -u admin -p admin ${dockerRepoUrl}"
       	sh "docker tag admin/${applicationName} latest"
-      	sh "docker push admin/${applicationName}:latest"
+      	sh "sudo docker push admin/${applicationName}:latest"
 		
 		echo "==========================================Build Docker Image ends====================================================="
 	}

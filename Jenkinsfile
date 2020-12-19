@@ -3,24 +3,47 @@ node {
 	// Get the Maven tool.
 	mvnHome = tool 'MAVEN'
 	def applicationName='demo'
-	def dockerRepoUrl = "34.122.253.69:8081"
-	def NexusDockerRegistryUrl= "34.122.253.69:8083"
+	def dockerRepoUrl = "34.122.253.69:8083"
+	
 	def dockerImage
 	def dockerImageTag = "${dockerRepoUrl}/admin/${applicationName}:latest"
 	
 	
 	
-stage ('Build Docker Image'){
-		echo "==========================================Build Docker Image starts====================================================="			
-		dockerImage = docker.build("admin/${applicationName}")		
+	stage('Code checkout') { 
+		echo "==========================================Code checkout starts====================================================="
+		// Get some code from a GitHub repository
+		def repo = "https://github.com/nnishad/springboot-test-api"		
+		git repo
+		echo "==========================================Code checkout ends====================================================="
+	}
+	stage ('Clean Up') {
+		echo "==========================================Clean Up starts====================================================="
+		echo "applicationName---  ${applicationName}"
+		sh "rm -rf /tmp/${applicationName}*"
+		sh 'docker system prune -a -f' 
+		echo "==========================================Clean Up ends====================================================="
+	}
 		
-		sh "docker login -u admin -p admin ${dockerRepoUrl}"
-      	//sh "docker tag admin/${applicationName} latest"
-      	sh "docker push ${dockerRepoUrl}/admin/demo:latest"
+	stage('Build Code') {
+		echo "==========================================Build Code starts====================================================="
+		sh "'${mvnHome}/bin/mvn' clean package -Dmaven.test.skip=true"
+		
+		
+		sh "'${mvnHome}/bin/mvn' clean package -U"
+		//sh "'${mvnHome}/bin/mvn' clean package -Dmaven.test.skip=true -U"
+		sh "cp /var/lib/jenkins/workspace/test-pipeline@2/target/${applicationName}-0.0.1-SNAPSHOT.jar /var/lib/jenkins/workspace/${applicationName}"
+		echo "==========================================Build Code ends====================================================="
+	}
+
+	stage ('Build Docker Image'){
+		echo "==========================================Build Docker Image starts====================================================="			
+		echo pwd
+		dockerImage = docker.build("admin/${applicationName}")
+		echo dockerImage		
 		
 		echo "==========================================Build Docker Image ends====================================================="
 	}
-
 	stage('Application Deployment'){
 		echo "==========================================Application Deployment starts====================================================="
 		//sh "chmod +x runContainer.sh"

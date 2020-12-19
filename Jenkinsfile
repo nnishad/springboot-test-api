@@ -38,8 +38,6 @@ node {
 
 	stage ('Build Docker Image'){
 		echo "==========================================Build Docker Image starts====================================================="			
-		sh "whoami"
-      	sh "ls -all /var/run/docker.sock"
 		
 		dockerImage = docker.build("admin/${applicationName}")		
 		

@@ -4,7 +4,7 @@ node {
 	mvnHome = tool 'MAVEN'
 	def applicationName='demo'
 	def dockerRepoUrl = "34.122.253.69:8083"
-	
+	def NexusDockerRegistryUrl= "34.122.253.69:8083"
 	def dockerImage
 	def dockerImageTag = "${dockerRepoUrl}/admin/${applicationName}:latest"
 	
@@ -36,16 +36,14 @@ node {
 		echo "==========================================Build Code ends====================================================="
 	}
 
-	stage ('Build Docker Image'){
-		echo "==========================================Build Docker Image starts====================================================="			
-		echo pwd
-		dockerImage = docker.build("admin/${applicationName}")		
-		
-		sh "docker login -u admin -p admin ${dockerRepoUrl}"
-      	sh "docker tag admin/${applicationName} latest"
-      	sh "docker push admin/${applicationName}:latest"
-		
-		echo "==========================================Build Docker Image ends====================================================="
+	stage('Push Docker Images to Nexus Registry'){
+			echo "==========================================Build Docker Image starts====================================================="			
+	
+		sh 'docker login -u admin -p admin NexusDockerRegistryUrl'
+		sh 'docker push NexusDockerRegistryUrl/applicationName}'
+		sh 'docker rmi $(docker images --filter=reference="NexusDockerRegistryUrl/applicationName*" -q)'
+		sh 'docker logout NexusDockerRegistryUrl'
+				echo "==========================================Build Docker Image ends====================================================="
 	}
 	stage('Application Deployment'){
 		echo "==========================================Application Deployment starts====================================================="

@@ -10,18 +10,17 @@ node {
 	
 	
 	
-
-
-	stage('Push Docker Images to Nexus Registry'){
-			echo "==========================================Build Docker Image starts====================================================="			
+stage ('Build Docker Image'){
+		echo "==========================================Build Docker Image starts====================================================="			
 		dockerImage = docker.build("admin/${applicationName}")		
-	
-		sh 'docker login -u admin -p admin ${dockerRepoUrl}'
-		sh 'docker push ${dockerRepoUrl}/${applicationName}'
-		sh 'docker rmi $(docker images --filter=reference="${dockerRepoUrl}/${applicationName}*" -q)'
-		sh 'docker logout ${dockerRepoUrl'
-				echo "==========================================Build Docker Image ends====================================================="
+		
+		sh "docker login -u admin -p admin ${dockerRepoUrl}"
+      	//sh "docker tag admin/${applicationName} latest"
+      	sh "docker push ${dockerRepoUrl}/${applicationName}"
+		
+		echo "==========================================Build Docker Image ends====================================================="
 	}
+
 	stage('Application Deployment'){
 		echo "==========================================Application Deployment starts====================================================="
 		//sh "chmod +x runContainer.sh"

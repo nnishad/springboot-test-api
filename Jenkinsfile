@@ -39,9 +39,9 @@ node {
 	stage('Push Docker Images to Nexus Registry'){
 			echo "==========================================Build Docker Image starts====================================================="			
 	
-		sh 'docker login -u admin -p admin NexusDockerRegistryUrl'
-		sh 'docker push NexusDockerRegistryUrl/applicationName}'
-		sh 'docker rmi $(docker images --filter=reference="NexusDockerRegistryUrl/applicationName*" -q)'
+		sh 'docker login -u admin -p admin ${NexusDockerRegistryUrl}'
+		sh 'docker push ${NexusDockerRegistryUrl}/${applicationName}'
+		sh 'docker rmi $(docker images --filter=reference="${NexusDockerRegistryUrl}/${applicationName}*" -q)'
 		sh 'docker logout NexusDockerRegistryUrl'
 				echo "==========================================Build Docker Image ends====================================================="
 	}

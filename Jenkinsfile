@@ -38,6 +38,7 @@ node {
 
 	stage ('Build Docker Image'){
 		echo "==========================================Build Docker Image starts====================================================="			
+		cd workspace/test-pipeline@2/target/
 		echo pwd
 		dockerImage = docker.build("admin/${applicationName}")		
 		

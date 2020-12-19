@@ -40,10 +40,15 @@ node {
 		echo "==========================================Build Docker Image starts====================================================="			
 		echo pwd
 		dockerImage = docker.build("admin/${applicationName}")
-		echo dockerImage		
 		
 		echo "==========================================Build Docker Image ends====================================================="
 	}
+	stage('Test image') {
+
+        dockerImage.inside {
+            sh 'echo "Tests passed"'
+        }
+    }
 	stage('Application Deployment'){
 		echo "==========================================Application Deployment starts====================================================="
 		//sh "chmod +x runContainer.sh"

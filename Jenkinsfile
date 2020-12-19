@@ -38,7 +38,7 @@ node {
 
 	stage ('Build Docker Image'){
 		echo "==========================================Build Docker Image starts====================================================="			
-		echp pwd
+		echo pwd
 		dockerImage = docker.build("admin/${applicationName}")		
 		
 		sh "docker login -u admin -p admin ${dockerRepoUrl}"

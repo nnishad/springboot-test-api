@@ -41,7 +41,7 @@ node {
 		echo pwd
 		dockerImage = docker.build("admin/${applicationName}")		
 		
-		sh "docker login -u admin --password-stdin admin ${dockerRepoUrl}"
+		sh "docker login -u admin -p admin ${dockerRepoUrl}"
       	//sh "docker tag ${applicationName} latest"
       	sh "docker push ${applicationName}"
 		

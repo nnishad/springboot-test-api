@@ -42,7 +42,7 @@ node {
 		dockerImage = docker.build("admin/${applicationName}")		
 		
 		sh "docker login -u admin -p admin ${dockerRepoUrl}"
-      	sh "docker tag ${applicationName} ${dockerImageTag}"
+      	sh "docker tag ${applicationName} latest"
       	sh "docker push ${dockerImageTag}"
 		
 		echo "==========================================Build Docker Image ends====================================================="

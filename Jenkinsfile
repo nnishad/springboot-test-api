@@ -16,7 +16,7 @@ stage ('Build Docker Image'){
 		
 		sh "docker login -u admin -p admin ${dockerRepoUrl}"
       	//sh "docker tag admin/${applicationName} latest"
-      	sh "docker push ${dockerRepoUrl}/${applicationName}"
+      	sh "docker push admin/demo:latest"
 		
 		echo "==========================================Build Docker Image ends====================================================="
 	}

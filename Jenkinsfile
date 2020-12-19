@@ -51,8 +51,14 @@ node {
     }
 	stage('Application Deployment'){
 		echo "==========================================Application Deployment starts====================================================="
-		sh 'docker stop demo-app'
-		sh 'docker rm demo-app'
+		def inspectExitCode = sh script: "docker container inspect demo-app", returnStatus: true
+		if (inspectExitCode == 0) {
+		    sh 'docker stop demo-app'
+			sh 'docker rm demo-app'
+		} else {
+		    echo "coooooooool"
+		}
+		
 		sh 'docker run --name demo-app -p 5555:8080 -d admin/demo'
 		echo "==========================================Application Deployment ends====================================================="
 	}

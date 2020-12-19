@@ -6,7 +6,7 @@ node {
 	def dockerRepoUrl = "34.122.253.69:8083"
 	
 	def dockerImage
-	def dockerImageTag = "${dockerRepoUrl}/admin/${applicationName}:0.0.1"
+	def dockerImageTag = "${dockerRepoUrl}/admin/${applicationName}:latest"
 	
 	
 	

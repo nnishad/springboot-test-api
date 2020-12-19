@@ -51,8 +51,8 @@ node {
     }
 	stage('Application Deployment'){
 		echo "==========================================Application Deployment starts====================================================="
-		sh 'docker container stop demo-app'
-		sh 'docker container rm demo-app'
+		sh 'docker stop demo-app'
+		sh 'docker rm demo-app'
 		sh 'docker run --name demo-app -p 5555:8080 -d admin/demo'
 		echo "==========================================Application Deployment ends====================================================="
 	}

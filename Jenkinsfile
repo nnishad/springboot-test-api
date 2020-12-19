@@ -3,7 +3,7 @@ node {
 	// Get the Maven tool.
 	mvnHome = tool 'MAVEN'
 	def applicationName='demo'
-	def dockerRepoUrl = "http://34.122.253.69:8081/repository/D-hosted/"
+	def dockerRepoUrl = "10.128.15.197:8083"
 	
 	def dockerImage
 	def dockerImageTag = "${dockerRepoUrl}/${applicationName}:0.0.1"

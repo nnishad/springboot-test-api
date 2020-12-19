@@ -51,16 +51,7 @@ node {
     }
 	stage('Application Deployment'){
 		echo "==========================================Application Deployment starts====================================================="
-		//sh "chmod +x runContainer.sh"
-		//sh "nohup ./runContainer.sh ${applicationName} > /dev/null 2>&1 &"
-		//sh 'chmod +x runContainer.sh'
-		//sh 'nohup ./runContainer.sh > /dev/null 2>&1 &'
-			
-		def publishPort=8087
-		def applicationPort=8087
-		///sh "helm list"
-		sh "chmod +x /var/lib/jenkins/workspace/${applicationName}@libs/dxp-pipeline-library2/vars/runContainer.sh"
-		sh "bash  /var/lib/jenkins/workspace/${applicationName}@libs/dxp-pipeline-library2/vars/runContainer.sh ${applicationName} ${publishPort} ${applicationPort}"		
+		sh 'docker run --name demo-app -p PORTS 5555:5556 admin/demo'
 		echo "==========================================Application Deployment ends====================================================="
 	}
 }
